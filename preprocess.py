@@ -3,20 +3,27 @@ import os
 from  bs4 import  BeautifulSoup
 from PIL import Image
 #把物体检查的bbox训练数据，转换成txt格式
-def convert_xml2txt(xml_root):
+def convert_xml2txt(xml_root,out_root):
+    out_root=os.path.join(out_root,'label_txt')
     xmls_files=os.listdir(xml_root)
     for x in xmls_files:
         with open(os.path.join(xml_root,x)) as f:
             y=BeautifulSoup(f.read())
             image_name=y.annotation.filename.getText()
-            if os.path.exists('label_txt') is False:
-                os.mkdir('label_txt')
-            txt_name=os.path.join('label_txt',os.path.splitext(image_name)[0]+'.txt')
+            if os.path.exists(out_root) is False:
+                os.mkdir(out_root)
+            txt_name=os.path.join(out_root,os.path.splitext(image_name)[0]+'.txt')
 
             with open(txt_name,'w') as txt_f:
                 for object in  y.find_all('object'):
                     for n in object.find_all('name'):
                         object_name=n.getText()
+                    if object_name=='up_cloth':
+                        object_name=str(0)
+                    elif object_name=='down_cloth':
+                        object_name=str(1)
+                    else:
+                        continue
                     txt_f.write(object_name+' ')
                     txt_f.write(object.bndbox.xmin.getText()+' ')
                     txt_f.write(object.bndbox.ymin.getText() + ' ')
@@ -63,6 +70,6 @@ def create_list(label_txt_root,image_root,out_root,split_ratio=0.9,):
 
 
 
-#convert_xml2txt('data/my_data/Annotations')
+#convert_xml2txt('data/my_data/Annotations','data/my_data/label_txt')
 #参数：txt标签文件存放目录，图片存放目录，生成的列表文件输出目录
 create_list('data/my_data/label_txt','data/my_data/images','data/my_data/')

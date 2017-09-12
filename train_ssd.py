@@ -18,7 +18,8 @@ caffe_root='./caffe'
 background_label_id = 2
 label_map_file = "./data/my_data/labelmap_kitti.prototxt"
 name_size_file = "./data/my_data/test_name_size.txt"
-pretrain_model = "models/VGGNet/VGG16.v2.caffemodel"
+pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
+gpus = "0"
 
 # Add extra layers on top of a "base" network (e.g. VGGNet or Inception).
 def add_extra_layers(net, use_batchnorm=True, lr_mult=1):
@@ -94,8 +95,8 @@ remove_old_models = True
 # Specify the batch sampler.
 # according your image width and height, change this
 # this influence accuracy of bbox
-resize_width = 414
-resize_height = 125
+resize_width = 300
+resize_height = 300
 resize = "{}x{}".format(resize_width, resize_height)
 batch_sampler = [
         {
@@ -342,7 +343,7 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "0,1"
+
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
@@ -397,7 +398,7 @@ solver_param = {
     'snapshot_after_train': True,
     # Test parameters
     'test_iter': [test_iter],
-    'test_interval': 10000,
+    'test_interval': 2000,
     'eval_type': "detection",
     'ap_version': "11point",
     'test_initialization': False,

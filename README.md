@@ -6,8 +6,8 @@ ssd 训练自己的数据
  
  把xml标签文件转换成txt文件：比如把2013.xml->2013.txt,txt内容为：
 ``` stylus
-物体名字1 minx miny maxx maxy
-物体名字2 minx miny maxx maxy
+物体索引1 minx miny maxx maxy
+物体索引2 minx miny maxx maxy
 ```
  2. 训练、测试文件名字列表生成train.txt、test.txt以及测试数据的信息文件test_name_size.txt，运行函数：
  
@@ -35,7 +35,11 @@ test_name_size.txt内容格式为：
 
 
  3. 根据识别物体任务，修改：labelmap_dataset.prototxt文件
- 4. 修改 train_ssdi.py文件的相关参数、文件路径等
+ 
+ 4. 生成lmdb文件：修改create_data.sh相关路径，然后运行生成lmdb文件
+
+
+ 5. 修改 train_ssdi.py文件的相关参数、文件路径等
 
  
 
