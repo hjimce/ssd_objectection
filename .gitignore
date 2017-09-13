@@ -206,4 +206,5 @@ examples/
 caffe/
 models/
 jobs/
+test_image/
 
